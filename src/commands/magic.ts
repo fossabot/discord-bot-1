@@ -11,10 +11,13 @@ export const magic: commandInt = {
   command: async function (message) {
     const query = message.content.substring(7, message.content.length);
     if (!query) {
-      message.channel.send(`ERROR 400: ${message.author}, missing card name.`);
+      if (message.id !== "test")
+        message.channel.send(
+          `ERROR 400: ${message.author}, missing card name.`
+        );
       return "failed";
     }
-    message.channel.send("STATUS 202: Searching...");
+    if (message.id !== "test") message.channel.send("STATUS 202: Searching...");
     const data = await fetch(
       `https://api.magicthegathering.io/v1/cards?name=${query}&pageSize=1`
     );
@@ -51,7 +54,7 @@ export const magic: commandInt = {
         }
       )
       .setImage(image);
-    message.channel.send(cardEmbed);
+    if (message.id !== "test") message.channel.send(cardEmbed);
     return "success";
   },
 };
